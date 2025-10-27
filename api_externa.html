@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>API Externa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        .api-data {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+        
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        .loading {
+            display: none;
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Datos de API Externa</h1>
+        
+        <button onclick="cargarDatosAPI()">🔄 Obtener Datos de la API</button>
+        
+        <div class="loading" id="loading">Cargando datos...</div>
+        
+        <div id="datosAPI" class="api-data">
+            <!-- Aquí se mostrarán los datos de la API -->
+            <p>Presiona el botón para cargar datos desde la API</p>
+        </div>
+        
+        <div id="errorContainer" class="error" style="display: none;">
+            Error al cargar los datos
+        </div>
+    </div>
+
+    <script>
+        async function cargarDatosAPI() {
+            const loadingElement = document.getElementById('loading');
+            const datosElement = document.getElementById('datosAPI');
+            const errorElement = document.getElementById('errorContainer');
+            
+            // Mostrar carga y ocultar errores
+            loadingElement.style.display = 'block';
+            datosElement.innerHTML = '';
+            errorElement.style.display = 'none';
+            
+            try {
+                // Hacer la petición a la API
+                const respuesta = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+                
+                if (!respuesta.ok) {
+                    throw new Error('Error en la petición: ' + respuesta.status);
+                }
+                
+                const datos = await respuesta.json();
+                
+                // Mostrar los datos en la página
+                datosElement.innerHTML = `
+                    <h3>📝 Publicación de la API</h3>
+                    <p><strong>ID:</strong> ${datos.id}</p>
+                    <p><strong>Título:</strong> ${datos.title}</p>
+                    <p><strong>Contenido:</strong> ${datos.body}</p>
+                    <p><strong>Usuario ID:</strong> ${datos.userId}</p>
+                    <p><em>Última actualización: ${new Date().toLocaleTimeString()}</em></p>
+                `;
+                
+            } catch (error) {
+                // Mostrar error
+                errorElement.style.display = 'block';
+                errorElement.innerHTML = `❌ Error: ${error.message}`;
+            } finally {
+                // Ocultar carga
+                loadingElement.style.display = 'none';
+            }
+        }
+        
+        // Cargar datos automáticamente al abrir la página
+        window.onload = cargarDatosAPI;
+    </script>
+</body>
+</html>
