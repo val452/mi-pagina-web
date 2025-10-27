@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Contenido Interactivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            transition: background 0.5s;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        .clock {
+            font-size: 2.5em;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        .quiz {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        
+        .options button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            background: #2196F3;
+        }
+        
+        .result {
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Contenido Interactivo</h1>
+        
+        <!-- Reloj en tiempo real -->
+        <div class="clock" id="reloj">00:00:00</div>
+        
+        <!-- Botón para cambiar color de fondo -->
+        <button onclick="cambiarColorFondo()">🎨 Cambiar Color de Fondo</button>
+        
+        <!-- Quiz interactivo -->
+        <div class="quiz">
+            <h2>📝 Quiz de Programación</h2>
+            <div class="question" id="pregunta">¿Qué significa HTML?</div>
+            <div class="options">
+                <button onclick="verificarRespuesta('a')">A) HyperText Markup Language</button>
+                <button onclick="verificarRespuesta('b')">B) High Tech Modern Language</button>
+                <button onclick="verificarRespuesta('c')">C) Home Tool Markup Language</button>
+            </div>
+            <div class="result" id="resultado"></div>
+        </div>
+    </div>
+
+    <script>
+        // Reloj en tiempo real (actualiza cada segundo)
+        function actualizarReloj() {
+            const ahora = new Date();
+            const horas = ahora.getHours().toString().padStart(2, '0');
+            const minutos = ahora.getMinutes().toString().padStart(2, '0');
+            const segundos = ahora.getSeconds().toString().padStart(2, '0');
+            document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
+        }
+        
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj(); // Ejecutar inmediatamente
+        
+        // Cambiar color de fondo aleatorio
+        function cambiarColorFondo() {
+            const colores = [
+                'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+                'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+                'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)',
+                'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+            ];
+            const colorAleatorio = colores[Math.floor(Math.random() * colores.length)];
+            document.body.style.background = colorAleatorio;
+        }
+        
+        // Quiz interactivo
+        function verificarRespuesta(opcion) {
+            const resultado = document.getElementById('resultado');
+            
+            if (opcion === 'a') {
+                resultado.textContent = '✅ ¡Correcto! HTML significa HyperText Markup Language';
+                resultado.style.color = 'green';
+            } else {
+                resultado.textContent = '❌ Incorrecto. La respuesta correcta es A) HyperText Markup Language';
+                resultado.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>
